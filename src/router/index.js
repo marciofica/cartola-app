@@ -70,11 +70,13 @@ export default new Router({
       redirect: '/dashboard',
       name: 'Home',
       component: DefaultContainer,
+      meta: {auth: true},
       children: [
         {
           path: 'dashboard',
           name: 'Dashboard',
-          component: Dashboard
+          component: Dashboard,
+          meta: {auth: true}
         },
         {
           path: 'theme',
@@ -323,7 +325,8 @@ export default new Router({
         {
           path: 'login',
           name: 'Login',
-          component: Login
+          component: Login,
+          meta: {auth: false}
         },
         {
           path: 'register',
@@ -333,4 +336,15 @@ export default new Router({
       ]
     }
   ]
+})
+
+
+Vue.use(require('@websanova/vue-auth'), {
+  auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
+  http: require('@websanova/vue-auth/drivers/http/vue-resource.1.x.js'),
+  router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
+  rolesVar: 'type',
+  loginData: {url: 'o/token/', method: 'POST', redirect: '/', fetchUser: false},
+  fetchData: {url: 'user/me/', method: 'GET'},
+  refreshData: {url: 'o/token/', method: 'GET', atInit: false}
 })

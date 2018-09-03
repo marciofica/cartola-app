@@ -6,6 +6,7 @@ import 'core-js/es7/array'
 // import cssVars from 'css-vars-ponyfill'
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
+import VueResource from 'vue-resource'
 import App from './App'
 import router from './router'
 
@@ -13,6 +14,11 @@ import router from './router'
 // cssVars()
 
 Vue.use(BootstrapVue)
+Vue.use(VueResource)
+
+Vue.http.options.root = 'http://localhost:8000'
+
+Vue.router = router
 
 /* eslint-disable no-new */
 new Vue({

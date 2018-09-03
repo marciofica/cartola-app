@@ -6,20 +6,20 @@
           <b-card-group>
             <b-card no-body class="p-4">
               <b-card-body>
-                <b-form>
+                <b-form v-on:submit="handleSubmit($event)">
                   <h1>Login</h1>
-                  <p class="text-muted">Sign In to your account</p>
+                  <p class="text-muted">Acessar o sistema</p>
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="text" class="form-control" placeholder="Username" autocomplete="username email" />
+                    <b-form-input type="text" class="form-control" placeholder="Usuário" autocomplete="username email" v-model="user.email" />
                   </b-input-group>
                   <b-input-group class="mb-4">
                     <b-input-group-prepend><b-input-group-text><i class="icon-lock"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="password" class="form-control" placeholder="Password" autocomplete="current-password" />
+                    <b-form-input type="password" class="form-control" placeholder="Senha" autocomplete="current-password" v-model="user.password" />
                   </b-input-group>
                   <b-row>
                     <b-col cols="6">
-                      <b-button variant="primary" class="px-4">Login</b-button>
+                      <b-button variant="primary" type="submit" class="px-4">Login</b-button>
                     </b-col>
                     <b-col cols="6" class="text-right">
                       <b-button variant="link" class="px-0">Forgot password?</b-button>
@@ -46,6 +46,32 @@
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  data () {
+    return {
+      user: {
+        email: null,
+        password: null
+      }
+    }
+  },
+  methods: {
+    handleSubmit: function(e) {
+      e.preventDefault()
+      
+      this.$auth.login({
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        params: {client_id: 'n0eBCsMsrQUOdsvR8BXIY77mmwU2m58xK7YpInRr', grant_type: 'password', client_secret: '45vt8CBrAE18kit4Gk94YznLgayHRisy4vkFG8ozZQ9OVh4Cn7nBq6w5eBhglkA7nH5ToJMMmDUA1KYBzQWjtcfZuBGvgdXOtGF1GtPWYN15sZN4Tpl2iGrDAzByWH82', username: this.user.email, password: this.user.password},
+        error: function () {
+          console.log('Usuário ou senha inválidos')
+        },
+        rememberMe: true,
+        redirect: '/dashboard'
+      })
+
+    }
+  }
 }
 </script>
