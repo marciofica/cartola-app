@@ -20,6 +20,13 @@ Vue.http.options.root = 'http://localhost:8000'
 
 Vue.router = router
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.auth)) {
+    console.log('Requer login!!')
+    next()
+  }
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
