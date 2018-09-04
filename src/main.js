@@ -8,7 +8,9 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueResource from 'vue-resource'
 import App from './App'
+
 import router from './router'
+Vue.router = router
 
 // todo
 // cssVars()
@@ -18,11 +20,14 @@ Vue.use(VueResource)
 
 Vue.http.options.root = 'http://localhost:8000'
 
-Vue.router = router
-
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.auth)) {
-    console.log('Requer login!!')
+    if(!localStorage.getItem('token')) {
+      next('/pages/login')
+    } else {
+      next()
+    }
+  } else {
     next()
   }
 })

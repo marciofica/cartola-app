@@ -31,7 +31,7 @@
             <b-card no-body class="text-white bg-primary py-5 d-md-down-none" style="width:44%">
               <b-card-body class="text-center">
                 <div>
-                  <h2>Sign up</h2>
+                  <h2>Registre-se</h2>
                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                   <b-button variant="primary" class="active mt-3">Register Now!</b-button>
                 </div>
@@ -64,11 +64,15 @@ export default {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         params: {client_id: 'n0eBCsMsrQUOdsvR8BXIY77mmwU2m58xK7YpInRr', grant_type: 'password', client_secret: '45vt8CBrAE18kit4Gk94YznLgayHRisy4vkFG8ozZQ9OVh4Cn7nBq6w5eBhglkA7nH5ToJMMmDUA1KYBzQWjtcfZuBGvgdXOtGF1GtPWYN15sZN4Tpl2iGrDAzByWH82', username: this.user.email, password: this.user.password},
+        success: function (response) {
+          localStorage.setItem('token', response.body.access_token);
+        },
         error: function () {
           console.log('Usuário ou senha inválidos')
         },
         rememberMe: true,
-        redirect: '/dashboard'
+        redirect: '/',
+        fetchUser: false
       })
 
     }
