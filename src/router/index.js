@@ -337,14 +337,3 @@ export default new Router({
     }
   ]
 })
-
-
-Vue.use(require('@websanova/vue-auth'), {
-  auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
-  http: require('@websanova/vue-auth/drivers/http/vue-resource.1.x.js'),
-  router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
-  rolesVar: 'type',
-  loginData: {url: 'o/token/', method: 'POST', redirect: '/', fetchUser: false},
-  fetchData: {url: 'user/me/', method: 'GET'},
-  refreshData: {url: 'o/token/', method: 'GET', atInit: false}
-})

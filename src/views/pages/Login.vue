@@ -60,19 +60,17 @@ export default {
       e.preventDefault()
       
       this.$auth.login({
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
         params: {client_id: 'n0eBCsMsrQUOdsvR8BXIY77mmwU2m58xK7YpInRr', grant_type: 'password', client_secret: '45vt8CBrAE18kit4Gk94YznLgayHRisy4vkFG8ozZQ9OVh4Cn7nBq6w5eBhglkA7nH5ToJMMmDUA1KYBzQWjtcfZuBGvgdXOtGF1GtPWYN15sZN4Tpl2iGrDAzByWH82', username: this.user.email, password: this.user.password},
         success: function (response) {
-          localStorage.setItem('token', response.body.access_token);
+          console.log('xuxexo!')
+          localStorage.setItem('token', response.data.access_token);
         },
         error: function () {
           console.log('Usuário ou senha inválidos')
         },
         rememberMe: true,
-        redirect: '/',
-        fetchUser: false
+        fetchUser: false,
+        redirect: '/dashboard'
       })
 
     }

@@ -6,7 +6,10 @@ import 'core-js/es7/array'
 // import cssVars from 'css-vars-ponyfill'
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
-import VueResource from 'vue-resource'
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+import VueAuth from '@websanova/vue-auth'
+
 import App from './App'
 
 import router from './router'
@@ -16,11 +19,25 @@ Vue.router = router
 // cssVars()
 
 Vue.use(BootstrapVue)
-Vue.use(VueResource)
 
-Vue.http.options.root = 'http://localhost:8000'
+Vue.use(VueAxios, axios);
+Vue.axios.defaults.baseURL = 'http://localhost:8000'
 
-router.beforeEach((to, from, next) => {
+Vue.use(BootstrapVue)
+
+Vue.use(VueAuth, {
+  auth: require('@websanova/vue-auth/drivers/auth/basic.js'),
+  http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
+  router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
+  loginData: {url: 'o/token/', method: 'POST', redirect: '/', fetchUser: false},
+  fetchData: {url: 'user/me/', method: 'GET'},
+  refreshData: {url: 'o/token/', method: 'GET', atInit: false},
+  authRedirect: {path: '/pages/login'},
+  tokenName: 'token'
+})
+
+
+Vue.router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.auth)) {
     if(!localStorage.getItem('token')) {
       next('/pages/login')
