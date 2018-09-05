@@ -26,28 +26,27 @@ Vue.axios.defaults.baseURL = 'http://localhost:8000'
 Vue.use(BootstrapVue)
 
 Vue.use(VueAuth, {
-  auth: require('@websanova/vue-auth/drivers/auth/basic.js'),
+  auth: {
+    request: function (req, token) {
+      this.options.http._setHeaders.call(this, req, {Authorization: 'Bearer ' + token})
+    },
+    response: function (res) {
+      var token = res.data.access_token
+      if (token) {
+        token = token.split('Bearer ')
+        return token[token.length > 1 ? 1 : 0]
+      }
+    }
+  },
   http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
   loginData: {url: 'o/token/', method: 'POST', redirect: '/', fetchUser: false},
   fetchData: {url: 'user/me/', method: 'GET'},
-  refreshData: {url: 'o/token/', method: 'GET', atInit: false},
+  refreshData: {url: 'users/', method: 'GET', atInit: false},
   authRedirect: {path: '/pages/login'},
-  tokenName: 'token'
+  tokenStore: ['localStorage', 'cookie']
 })
 
-
-Vue.router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.auth)) {
-    if(!localStorage.getItem('token')) {
-      next('/pages/login')
-    } else {
-      next()
-    }
-  } else {
-    next()
-  }
-})
 
 /* eslint-disable no-new */
 new Vue({

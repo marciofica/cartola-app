@@ -70,7 +70,6 @@ export default new Router({
       redirect: '/dashboard',
       name: 'Home',
       component: DefaultContainer,
-      meta: {auth: true},
       children: [
         {
           path: 'dashboard',
