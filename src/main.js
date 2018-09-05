@@ -48,6 +48,7 @@ Vue.use(VueAuth, {
   tokenStore: ['localStorage', 'cookie']
 })
 
+Vue.use(require('vue-moment'))
 
 /* eslint-disable no-new */
 new Vue({

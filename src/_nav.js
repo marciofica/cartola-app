@@ -19,7 +19,7 @@ export default {
     },
     {
       name: 'Clubes',
-      url: '/theme/colors',
+      url: '/clubes',
       icon: 'icon-drop'
     },
     {
