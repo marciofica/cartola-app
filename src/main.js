@@ -41,8 +41,9 @@ Vue.use(VueAuth, {
   http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
   loginData: {url: 'o/token/', method: 'POST', redirect: '/', fetchUser: false},
+  logoutData: {url: 'o/revoke_token/', method: 'POST', redirect: '/', makeRequest: true},
   fetchData: {url: 'user/me/', method: 'GET'},
-  refreshData: {url: 'users/', method: 'GET', atInit: false},
+  refreshData: {url: 'user/me/', method: 'GET', atInit: false},
   authRedirect: {path: '/pages/login'},
   tokenStore: ['localStorage', 'cookie']
 })

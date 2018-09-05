@@ -1,5 +1,5 @@
 <template>
-  <AppHeaderDropdown right no-caret>
+  <AppHeaderDropdown right>
     <template slot="header">
       <img
         src="img/avatars/6.jpg"
@@ -7,35 +7,14 @@
         alt="admin@bootstrapmaster.com" />
     </template>\
     <template slot="dropdown">
-      <b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
-      <b-dropdown-item><i class="fa fa-bell-o" /> Updates
-        <b-badge variant="info">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-envelope-o" /> Messages
-        <b-badge variant="success">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-tasks" /> Tasks
-        <b-badge variant="danger">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-comments" /> Comments
-        <b-badge variant="warning">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-header
-        tag="div"
-        class="text-center">
-        <strong>Settings</strong>
+      <b-dropdown-header tag="div" class="text-center">
+        <strong>Opções</strong>
       </b-dropdown-header>
-      <b-dropdown-item><i class="fa fa-user" /> Profile</b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-wrench" /> Settings</b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-usd" /> Payments
+      <b-dropdown-item><i class="fa fa-user" /> Perfil</b-dropdown-item>
+      <!--b-dropdown-item><i class="fa fa-usd" /> Payments
         <b-badge variant="secondary">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-file" /> Projects
-        <b-badge variant="primary">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-divider />
-      <b-dropdown-item><i class="fa fa-shield" /> Lock Account</b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-lock" /> Logout</b-dropdown-item>
+      </b-dropdown-item -->
+      <b-dropdown-item v-on:click="logout($event)"><i class="fa fa-lock" /> Sair</b-dropdown-item>
     </template>
   </AppHeaderDropdown>
 </template>
@@ -49,6 +28,23 @@ export default {
   },
   data: () => {
     return { itemsCount: 42 }
+  },
+  methods: {
+    logout: function(e) {
+      e.preventDefault()      
+      this.$auth.logout({
+        makeRequest: true,
+        params: {
+          client_id: 'n0eBCsMsrQUOdsvR8BXIY77mmwU2m58xK7YpInRr',
+          token: localStorage.getItem('default_auth_token')
+        },
+        success: function (response) { },
+        error: function () {
+          
+        },
+        redirect: '/pages/login'
+      })
+    }
   }
 }
 </script>
