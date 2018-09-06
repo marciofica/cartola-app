@@ -1,6 +1,48 @@
 <template>
     <div class="animated fadeIn">
         <b-row>
+
+            <b-col sm="6" lg="3">
+                <b-card no-body class="bg-default">
+                <b-card-body class="pb-0">
+                    <h4 class="mb-1">Adicionar um clube</h4>
+                    <p>Criando um clube você poderá criar times, vincular jogadores, gerenciar as mensalidades e criar partidas.</p>
+                    <div class="text-center">
+                        <b-button variant="primary" class="mb-3" @click="adicionar"><i class="fa fa-plus"></i> Adicionar</b-button>
+                    </div>
+                </b-card-body>              
+                </b-card>
+            </b-col>
+
+            <b-col sm="6" lg="3" v-if="isCreate">
+                <b-card no-body class="bg-default">
+                <b-card-body class="pb-0">
+                    
+                    <b-form @submit="salvar">
+                        <b-form-group id="exampleInputGroup1"
+                                        label="Nome"
+                                        label-for="nome">
+                            <b-form-input id="nome"
+                                        type="text"
+                                        v-model="registro.nome"
+                                        required>
+                            </b-form-input>
+                        </b-form-group>
+                        <b-form-group id="exampleInputGroup2"
+                                        label="Data de fundação"
+                                        label-for="fundacao">
+                            <b-form-input id="fundacao"
+                                        type="date"
+                                        v-model="registro.fundacao"
+                                        required>
+                            </b-form-input>
+                        </b-form-group>
+                        <b-button type="submit" variant="primary" class="mb-3">Salvar</b-button>
+                    </b-form>
+                </b-card-body>              
+                </b-card>
+            </b-col>
+
             <b-col sm="6" lg="3" v-for="item in registros" :key="item.id">
                 <b-card no-body class="bg-primary">
                 <b-card-body class="pb-0">
@@ -32,18 +74,36 @@ export default {
     data () {
         return {
             registros: [],
-            registro: {}
+            registro: {},
+            isCreate: false,
+            isUpdate: false
         }
     },
     created () {
         this.getAll();
     },
     methods: {
+        adicionar(){
+            this.isCreate = true;
+        },
         getAll() {
             return this.$http.get('clubes/')
                 .then(response => {
                     this.registros = response.data;
                 });
+        },
+        salvar(evt) {
+            evt.preventDefault()
+            this.$http.post('clubes/',{
+                nome: this.registro.nome,
+                fundacao: this.registro.fundacao
+            }).then(response => {
+                this.registro = response.data;
+                this.isCreate = false;
+                this.registros.push(this.registro);
+            }).catch(e => {
+                this.erro = e.error;
+            })
         }
     }
 }

@@ -59,7 +59,13 @@ export default {
     handleSubmit: function(e) {
       e.preventDefault()      
       this.$auth.login({
-        params: {client_id: 'n0eBCsMsrQUOdsvR8BXIY77mmwU2m58xK7YpInRr', grant_type: 'password', client_secret: '45vt8CBrAE18kit4Gk94YznLgayHRisy4vkFG8ozZQ9OVh4Cn7nBq6w5eBhglkA7nH5ToJMMmDUA1KYBzQWjtcfZuBGvgdXOtGF1GtPWYN15sZN4Tpl2iGrDAzByWH82', username: this.user.email, password: this.user.password},
+        params: {
+          client_id: 'n0eBCsMsrQUOdsvR8BXIY77mmwU2m58xK7YpInRr', 
+          grant_type: 'password', 
+          client_secret: '45vt8CBrAE18kit4Gk94YznLgayHRisy4vkFG8ozZQ9OVh4Cn7nBq6w5eBhglkA7nH5ToJMMmDUA1KYBzQWjtcfZuBGvgdXOtGF1GtPWYN15sZN4Tpl2iGrDAzByWH82', 
+          username: this.user.email, 
+          password: this.user.password
+        },
         success: function (response) { },
         error: function () {
           console.log('Usuário ou senha inválidos')

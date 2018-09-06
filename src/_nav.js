@@ -20,12 +20,12 @@ export default {
     {
       name: 'Clubes',
       url: '/clubes',
-      icon: 'icon-drop'
+      icon: 'icon-trophy'
     },
     {
       name: 'Partidas',
       url: '/theme/typography',
-      icon: 'icon-pencil'
+      icon: 'icon-book-open'
     }
   ]
 }
