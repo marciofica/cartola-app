@@ -14,15 +14,20 @@
                 </b-card>
             </b-col>
 
-            <b-col sm="6" lg="3" v-if="isCreate">
+            <b-col sm="6" lg="3" v-if="isCreate || isUpdate">
                 <b-card no-body class="bg-default">
                 <b-card-body class="pb-0">
-                    
-                    <b-form @submit="salvar">
+                    <b-btn v-if="isUpdate" class="float-right" right id="my-button" title="Confirma exclusão?" variant="transparent p-0"><i class="fa fa-trash text-danger"></i></b-btn>
+                    <b-popover target="my-button" title="Title">
+                        <div class="text-center">
+                            <b-button type="button" class="btn btn-sm btn-danger" @click="excluir">Remover</b-button>
+                        </div>
+                    </b-popover>
+                    <b-form>
                         <b-form-group id="exampleInputGroup1"
                                         label="Nome"
                                         label-for="nome">
-                            <b-form-input id="nome"
+                            <b-form-input v-focus id="nome"
                                         type="text"
                                         v-model="registro.nome"
                                         required>
@@ -37,7 +42,11 @@
                                         required>
                             </b-form-input>
                         </b-form-group>
-                        <b-button type="submit" variant="primary" class="mb-3">Salvar</b-button>
+                        <div class="text-center">
+                            <b-button type="button" variant="secondary" class="mb-3 mr-1" @click="cancel()">Cancelar</b-button>
+                            <b-button type="button" variant="primary" class="mb-3" @click="salvar()" v-if="isCreate">Salvar</b-button>
+                            <b-button type="button" variant="primary" class="mb-3" @click="atualizar()" v-if="isUpdate">Salvar</b-button>
+                        </div>
                     </b-form>
                 </b-card-body>              
                 </b-card>
@@ -47,15 +56,14 @@
                 <b-card no-body class="bg-primary">
                 <b-card-body class="pb-0">
                     <b-dropdown class="float-right" variant="transparent p-0" right>
-                    <template slot="button-content">
-                        <i class="icon-settings"></i>
-                    </template>
-                    <b-dropdown-item>Editar</b-dropdown-item>
-                    <b-dropdown-item>Times</b-dropdown-item>
-                    <b-dropdown-item>Partidas</b-dropdown-item>
-                    <b-dropdown-item>Jogadores</b-dropdown-item>
-                    <b-dropdown-item disabled>Financeiro</b-dropdown-item>
-                    <!-- b-dropdown-item disabled>Disabled action</b-dropdown-item -->
+                        <template slot="button-content">
+                            <i class="icon-settings"></i>
+                        </template>
+                        <b-dropdown-item @click="editar(item)">Editar</b-dropdown-item>
+                        <b-dropdown-item>Times</b-dropdown-item>
+                        <b-dropdown-item>Partidas</b-dropdown-item>
+                        <b-dropdown-item>Jogadores</b-dropdown-item>
+                        <b-dropdown-item disabled>Financeiro</b-dropdown-item>
                     </b-dropdown>
                     <h4 class="mb-0">{{item.nome}}</h4>
                     <p>Data de fundação: {{item.fundacao | moment("DD/MM/YYYY")}}</p>
@@ -83,8 +91,20 @@ export default {
         this.getAll();
     },
     methods: {
-        adicionar(){
-            this.isCreate = true;
+        clearFields() {
+            this.registro = {}
+        },
+        cancel() {
+            this.isCreate = false
+            this.isUpdate = false
+            this.clearFields()
+        },
+        adicionar() {
+            this.isCreate = true
+        },
+        editar(item) {
+            this.isUpdate = true
+            this.registro = item
         },
         getAll() {
             return this.$http.get('clubes/')
@@ -92,8 +112,7 @@ export default {
                     this.registros = response.data;
                 });
         },
-        salvar(evt) {
-            evt.preventDefault()
+        salvar() {
             this.$http.post('clubes/',{
                 nome: this.registro.nome,
                 fundacao: this.registro.fundacao
@@ -101,10 +120,37 @@ export default {
                 this.registro = response.data;
                 this.isCreate = false;
                 this.registros.push(this.registro);
+                this.clearFields()
+                this.$toast.top('Clube inserido com sucesso!');
             }).catch(e => {
                 this.erro = e.error;
             })
+        },
+        atualizar() {
+            this.$http.put('clubes/' + this.registro.id + '/',{
+                nome: this.registro.nome,
+                fundacao: this.registro.fundacao
+            }).then(response => {
+                this.registro = response.data;
+                this.isUpdate = false;
+                this.$toast.top('Clube "' + this.registro.nome + '" alterado com sucesso!');
+                this.clearFields()
+                this.getAll()
+            }).catch(e => {
+                this.erro = e.error;
+            })
+        },
+        excluir() {
+           this.$http.delete('clubes/' + this.registro.id + '/').then(response => {
+                this.isUpdate = false;
+                this.$toast.top('Clube "' + this.registro.nome + '" excluído com sucesso!');
+                this.clearFields()
+                this.getAll()
+            }).catch(e => {
+                this.erro = e.error;
+            }) 
         }
+        
     }
 }
 </script>

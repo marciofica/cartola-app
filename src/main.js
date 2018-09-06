@@ -9,6 +9,8 @@ import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import VueAuth from '@websanova/vue-auth'
+import 'vue2-toast/lib/toast.css'
+import Toast from 'vue2-toast'
 
 import App from './App'
 
@@ -19,6 +21,7 @@ Vue.router = router
 // cssVars()
 
 Vue.use(BootstrapVue)
+Vue.use(Toast)
 
 Vue.use(VueAxios, axios);
 Vue.axios.defaults.baseURL = 'http://localhost:8000'
@@ -49,6 +52,12 @@ Vue.use(VueAuth, {
 })
 
 Vue.use(require('vue-moment'))
+
+Vue.directive('focus', {
+  inserted: function (el) {
+    el.focus()
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({
