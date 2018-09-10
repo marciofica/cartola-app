@@ -60,6 +60,7 @@ const User = () => import('@/views/users/User')
 
 //Clubes
 const Clubes = () => import('@/views/clubes/Clubes')
+const Times = () => import('@/views/clubes/Times')
 
 Vue.use(Router)
 
@@ -88,11 +89,8 @@ export default new Router({
             render (c) { return c('router-view') }
           },
           children: [
-            {
-              path: 'list',
-              name: 'Lista de clubes',
-              component: Clubes
-            }
+            { path: 'list', name: 'Lista de clubes', component: Clubes, meta: {auth: true} },
+            { path: '/clubes/:id/times', name:'Times', component: Times, meta: {auth: true} },
           ]
         }
       ]

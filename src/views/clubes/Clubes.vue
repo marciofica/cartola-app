@@ -17,8 +17,8 @@
             <b-col sm="6" lg="3" v-if="isCreate || isUpdate">
                 <b-card no-body class="bg-default">
                 <b-card-body class="pb-0">
-                    <b-btn v-if="isUpdate" class="float-right" right id="my-button" title="Confirma exclusão?" variant="transparent p-0"><i class="fa fa-trash text-danger"></i></b-btn>
-                    <b-popover target="my-button" title="Title">
+                    <b-btn v-if="isUpdate" class="float-right" right id="my-button" variant="transparent p-0"><i class="fa fa-trash text-dark"></i></b-btn>
+                    <b-popover target="my-button" title="Confirma exclusão?">
                         <div class="text-center">
                             <b-button type="button" class="btn btn-sm btn-danger" @click="excluir">Remover</b-button>
                         </div>
@@ -60,7 +60,7 @@
                             <i class="icon-settings"></i>
                         </template>
                         <b-dropdown-item @click="editar(item)">Editar</b-dropdown-item>
-                        <b-dropdown-item>Times</b-dropdown-item>
+                        <b-dropdown-item><router-link :to="{ name: 'Times', params: { id: item.id } }">Times</router-link></b-dropdown-item>
                         <b-dropdown-item>Partidas</b-dropdown-item>
                         <b-dropdown-item>Jogadores</b-dropdown-item>
                         <b-dropdown-item disabled>Financeiro</b-dropdown-item>
