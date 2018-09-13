@@ -60,7 +60,7 @@
                             <i class="icon-settings"></i>
                         </template>
                         <b-dropdown-item @click="editar(item)">Editar</b-dropdown-item>
-                        <b-dropdown-item><router-link :to="{ name: 'Times', params: { id: item.id } }">Times</router-link></b-dropdown-item>
+                        <b-dropdown-item :to="{ name: 'Times', params: { id: item.id } }">Times</b-dropdown-item>
                         <b-dropdown-item>Partidas</b-dropdown-item>
                         <b-dropdown-item>Jogadores</b-dropdown-item>
                         <b-dropdown-item disabled>Financeiro</b-dropdown-item>

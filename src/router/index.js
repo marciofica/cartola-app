@@ -61,6 +61,8 @@ const User = () => import('@/views/users/User')
 //Clubes
 const Clubes = () => import('@/views/clubes/Clubes')
 const Times = () => import('@/views/clubes/Times')
+const TimesNovo = () => import('@/views/clubes/TimesNovo')
+const TimesEditar = () => import('@/views/clubes/TimesEditar')
 
 Vue.use(Router)
 
@@ -90,7 +92,20 @@ export default new Router({
           },
           children: [
             { path: 'list', name: 'Lista de clubes', component: Clubes, meta: {auth: true} },
-            { path: '/clubes/:id/times', name:'Times', component: Times, meta: {auth: true} },
+            { 
+              path: '/clubes/:id/times',
+              redirect: '/clubes/:id/times/list', 
+              name:'Times', 
+              component: {
+                render (c) { return c('router-view') }
+              }, 
+              meta: {auth: true} ,
+              children: [
+                { path: 'list', name:'Lista de times', component: Times, meta: {auth: true} },
+                { path: 'novo', name:'Cadastrar time', component: TimesNovo, meta: {auth: true} },
+                { path: ':time/editar', name:'Editar time', component: TimesEditar, meta: {auth: true} },
+              ]
+            },
           ]
         }
       ]
