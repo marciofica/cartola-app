@@ -50,26 +50,32 @@
                         <b-col md="3">
                             <b-form-group>
                                 <label for="telefone">Telefone</label>
-                                <b-form-input v-model="jogador.telefone" type="text" id="telefone" autocomplete="off"></b-form-input>
+                                <masked-input
+                                    type="text"
+                                    name="telefone"
+                                    class="form-control"
+                                    v-model="jogador.telefone"
+                                    :mask="['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]"
+                                    :guide="true"
+                                    placeholderChar="#"
+                                    autocomplete="off"></masked-input>
                             </b-form-group>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col md="3">
-                            <c-switch 
-                                    class="mx-1" 
-                                    id="mensalista" 
-                                    color="success" 
-                                    name="mensalista" 
-                                    v-model="jogador.mensalista" 
-                                    :checked="jogador.mensalista"
-                                    /> Mensalista?
+                            <b-form-checkbox id="checkbox1"
+                                                v-model="jogador.mensalista"
+                                                value="true"
+                                                unchecked-value="false">
+                                Mensalista
+                            </b-form-checkbox>
                         </b-col>
                     </b-row>
                                         
                 </div>
                 <div class="card-footer">
-                    <div class="text-center">
+                    <div class="text-left">
                         <b-button variant="primary" @click="salvar()"><i class="fa fa-save"></i> Salvar</b-button>
                     </div>
                 </div>
@@ -78,12 +84,12 @@
     </b-row>
 </template>
 <script>
-import { Switch as cSwitch } from '@coreui/vue'
+import MaskedInput from 'vue-text-mask'
 
 export default {
     name: 'JogadoresNovo',
     components: {
-        cSwitch
+        MaskedInput
     },
     data: function () {
         return {
@@ -96,7 +102,13 @@ export default {
     methods: {
         salvar (){
             this.$http.post('jogadores/',{
-                nome: this.time.nome,
+                nome: this.jogador.nome,
+                apelido: this.jogador.apelido,
+                email: this.jogador.email,
+                numero_camisa: this.jogador.numero_camisa,
+                posicao: this.jogador.posicao,
+                nota: this.jogador.nota,
+                mensalista: this.jogador.mensalista
                 
             }).then(response => {
                 this.$toast.top('Jogador inserido com sucesso!');

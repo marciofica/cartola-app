@@ -35,7 +35,7 @@
                                         
                 </div>
                 <div class="card-footer">
-                    <div class="text-center">
+                    <div class="text-left">
                         <b-button variant="primary" @click="salvar()"><i class="fa fa-save"></i> Salvar</b-button>
                     </div>
                 </div>
