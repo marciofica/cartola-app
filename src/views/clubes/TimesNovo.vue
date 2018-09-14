@@ -68,7 +68,7 @@ export default {
                 ativo: this.time.ativo,
                 clube: this.$route.params.id
             }).then(response => {
-                this.$toast.top('Clube inserido com sucesso!');
+                this.$toast.top('Time inserido com sucesso!');
                 this.$router.push({ path: '/clubes/'+this.$route.params.id+'/times' })
             }).catch(e => {
                 this.erro = e.error;
