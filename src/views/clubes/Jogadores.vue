@@ -1,8 +1,62 @@
 <template>
     <div>
         <b-row>
-        <b-col md="12">
+        <b-col md="4">
             <div class="card">
+                <div class="card-header">
+                    <div class="align-middle">
+                        <span>Localizar jogadores</span>
+                        <router-link class="btn btn-square btn-sm btn-primary float-right" :to="{ path: 'novo'}"><i class="fa fa-plus"></i></router-link>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <b-form-group label-for="elementsAppendButton" description="Localize o jogador para vincular ao elenco.">
+                        <b-input-group>
+                            <b-form-input id="elementsAppendButton" v-focus v-model="query" type="text"></b-form-input>
+                            <b-input-group-append>
+                            <b-button variant="primary" @click="searchJogador">Buscar</b-button>
+                            </b-input-group-append>
+                        </b-input-group>
+                    </b-form-group>
+                    
+                     <b-list-group>
+                        <b-list-group-item v-for="item in jogadoresSearch" v-bind:key="item.id" href="#" class="flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{item.first_name}}</h5>
+                            </div>
+                            <small class="mb-1">Apelido: {{item.apelido}} | E-mail: {{item.email}}</small>
+                        </b-list-group-item>
+                     </b-list-group>
+                </div>
+            </div>
+        </b-col>
+        <b-col md="8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="align-middle">
+                        <span>Jogadores do elenco</span> <span class="badge badge-success float-right">33 jogadores</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <b-list-group>
+                        <b-list-group-item href="#" class="flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Márcio Figueiredo Cardoso</h5>
+                            <small>Membro desde 03/05/2015</small>
+                            </div>
+                            <p class="mb-1">Apelido: Márcio | Camisa: 55 | Posição: ZG | Nota: 7,9 </p>
+                        </b-list-group-item>
+                         <b-list-group-item href="#" class="flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Márcio Figueiredo Cardoso</h5>
+                            <small>Membro desde 03/05/2015</small>
+                            </div>
+                            <p class="mb-1">Apelido: Márcio | Camisa: 55 | Posição: ZG | Nota: 7,9 </p>
+                        </b-list-group-item>
+                    </b-list-group>
+                </div>
+            </div>
+            <!--div class="card">
                 <div class="card-header">
                     <div class="align-middle">
                         <span>Jogadores do clube: {{ nomeClube }}</span>
@@ -30,7 +84,7 @@
                         </div>
                     </b-modal>
                 </div>
-            </div>
+            </div -->
         </b-col>
     </b-row>
     </div>
@@ -43,35 +97,9 @@ export default {
       idClube: 0,
       nomeClube: '',
       jogador: {},
-      tableItems: [],
-      tableFields: {
-          nome: {
-              label: 'Nome',
-              sortable: true
-          },
-          apelido: {
-              label: 'Apelido',
-              tdClass: 'td-25'
-          },
-          nota: {
-              label: 'Nota',
-              sortable: true,
-              tdClass: 'td-5 text-right'
-          },
-          posicao: {
-              label: 'Posição',
-              tdClass: 'td-5 text-center'
-          },
-          numero_camisa: {
-              label: 'Camisa',
-              tdClass: 'td-5 text-center'
-          },
-          acoes: {
-                label: '',
-                class: 'text-center',
-                tdClass: 'td-5'
-           }
-      }
+      jogadoresSearch: [],
+      jogadoresClube: [],
+      query: ''
     }
   },
   created() {
@@ -89,6 +117,12 @@ export default {
                 this.tableItems = response.data;
         });
             
+    },
+    searchJogador(){
+        return this.$http.get('jogadores/?search=' + this.query)
+        .then(response => {
+                this.jogadoresSearch = response.data;
+        });  
     },
     getClube(){
         return this.$http.get('clubes/' + this.idClube + '/')
