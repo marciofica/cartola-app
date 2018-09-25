@@ -7,39 +7,25 @@
                 </div>
                 <div class="card-body">
                     <b-row>
-                        <b-col md="9">
+                        <b-col md="6">
                             <b-form-group>
                                 <label for="nome">Nome</label>
-                                <b-form-input v-focus v-model="jogador.nome" type="text" id="nome" placeholder="Nome do jogador" autocomplete="off"></b-form-input>
+                                <b-form-input v-focus v-model="jogador.first_name" type="text" id="nome" placeholder="Nome do jogador" autocomplete="off"></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col md="3">
                             <b-form-group>
-                                <label for="nome">Nota</label>
-                                <b-form-input v-model="jogador.nota" type="text" id="nota" placeholder="Nota" autocomplete="off"></b-form-input>
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col md="4">
-                            <b-form-group>
-                                <label for="nome">Apelido</label>
+                                <label for="apelido">Apelido</label>
                                 <b-form-input v-model="jogador.apelido" type="text" id="apelido" placeholder="Apelido(camisa)" autocomplete="off"></b-form-input>
                             </b-form-group>
                         </b-col>
-                        <b-col md="4">
+                        <b-col md="3">
                             <b-form-group>
-                                <label for="nome">Posição</label>
-                                <b-form-input v-model="jogador.posicao" type="text" id="posicao" placeholder="Posição do jogador" autocomplete="off"></b-form-input>
+                                <label for="data_nascimento">Data de Nascimento</label>
+                                <b-form-input v-model="jogador.data_nascimento" type="date" id="data_nascimento" autocomplete="off"></b-form-input>
                             </b-form-group>
                         </b-col>
-                        <b-col md="4">
-                            <b-form-group>
-                                <label for="numCamisa">Núm.Camisa</label>
-                                <b-form-input v-model="jogador.numero_camisa" type="text" id="numCamisa" placeholder="Número da camisa" autocomplete="off"></b-form-input>
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
+                    </b-row>                    
                     <b-row>
                         <b-col md="9">
                             <b-form-group>
@@ -60,16 +46,6 @@
                                     placeholderChar="#"
                                     autocomplete="off"></masked-input>
                             </b-form-group>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col md="3">
-                            <b-form-checkbox id="checkbox1"
-                                                v-model="jogador.mensalista"
-                                                value="true"
-                                                unchecked-value="false">
-                                Mensalista
-                            </b-form-checkbox>
                         </b-col>
                     </b-row>
                                         
@@ -102,14 +78,12 @@ export default {
     methods: {
         salvar (){
             this.$http.post('jogadores/',{
-                nome: this.jogador.nome,
+                first_name: this.jogador.first_name,
                 apelido: this.jogador.apelido,
                 email: this.jogador.email,
-                numero_camisa: this.jogador.numero_camisa,
-                posicao: this.jogador.posicao,
-                nota: this.jogador.nota,
-                mensalista: this.jogador.mensalista
-                
+                username: this.jogador.email,
+                telefone: this.jogador.telefone,
+                data_nascimento: this.jogador.data_nascimento           
             }).then(response => {
                 this.$toast.top('Jogador inserido com sucesso!');
                 this.$router.push({ path: '/clubes/'+this.$route.params.id+'/jogadores' })
