@@ -40,7 +40,7 @@
                 </div>
                 <div class="card-body">
                     <b-list-group>
-                        <b-list-group-item v-for="item in jogadoresClube" v-bind:key="item.id" href="#" class="flex-column align-items-start">
+                        <b-list-group-item v-for="item in jogadoresClube" v-bind:key="item.id" @click="editarJogadorClube(item)" class="flex-column align-items-start mao">
                             <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">{{item.usuario.first_name}}</h5>
                             <small>Membro desde {{item.data_membro | moment("DD/MM/YYYY") }}</small>
@@ -65,11 +65,36 @@
 
         <!-- Modal de iclusão de jogador no clube -->
         <b-modal id="vinculoModal" ref="vinculoModal" title="Vincular jogador" busy>
+            <b-row class="mb-2">
+                <b-col md="12">
+                    <h6>Jogador: {{jogador.first_name}} </h6>
+                </b-col>
+            </b-row>
             <b-row>
                 <b-col md="4">
                     <b-form-group>
-                        <label for="nome">Posição</label>
-                        <b-form-input v-focus v-model="jogadorClube.posicao" type="text" autocomplete="off"></b-form-input>
+                        <label for="posicao">Posição</label>
+                        <b-form-select id="posicao"
+                            size="lg"
+                            :plain="true"
+                            :multiple="false"
+                            :options="[
+                                {
+                                text: 'Goleiro',
+                                value: 'GO'
+                                },
+                                {
+                                text: 'Zagueiro',
+                                value: 'ZG'
+                                }, {
+                                text: 'Meio',
+                                value: 'MC'
+                                }, {
+                                text: 'Atacante',
+                                value: 'AT'
+                                }, ]"
+                            v-focus v-model="jogadorClube.posicao">
+                        </b-form-select>
                     </b-form-group>
                 </b-col>
                 <b-col md="4">
@@ -97,8 +122,9 @@
             </b-row>
             
             <div slot="modal-footer" class="w-100">
-                <b-btn size="sm" class="float-right ml-2" variant="primary" @click="salvarVinculo">Salvar</b-btn>
-                <b-btn size="sm" class="float-right" variant="secondary" @click="cancelarVínculo">Cancelar</b-btn>                            
+                <b-btn v-if="jogadorClube.id == null" size="sm" class="float-right ml-2" variant="primary" @click="salvarVinculo">Salvar</b-btn>
+                <b-btn v-if="jogadorClube.id > 0" size="sm" class="float-right ml-2" variant="warning" @click="updateVinculo">Salvar</b-btn>
+                <b-btn size="sm" class="float-right" variant="secondary" @click="cancelarVinculo">Cancelar</b-btn>                            
             </div>
         </b-modal>
     </div>
@@ -163,6 +189,30 @@ export default {
                 this.$toast.top('Erro inserindo vínculo: ' + e.error);
             })
     },
+    updateVinculo(){
+        this.jogadorClube.clube = this.idClube
+        this.jogadorClube.usuario = this.jogador.id
+        this.$http.put('jogadores-clubes/'+ this.jogadorClube.id + '/',{
+                id: this.jogadorClube.id,
+                mensalista: this.jogadorClube.mensalista,
+                numero_camisa: this.jogadorClube.numero_camisa,
+                posicao: this.jogadorClube.posicao,
+                nota: this.jogadorClube.nota,
+                clube: this.idClube,
+                usuario: this.jogador.id
+            }).then(response => {
+                this.$toast.top('Jogador alterado com sucesso!');
+                this.searchJogadorClube()
+                this.cancelarVinculo()
+            }).catch(e => {
+                this.$toast.top('Erro alterando jogador: ' + e.error);
+            })
+    },
+    editarJogadorClube(item){
+        this.jogadorClube = item
+        this.jogador = item.usuario
+        this.$refs.vinculoModal.show()
+    },
     cancelarVinculo(){
         this.jogadorClube = {mensalista: true}
         this.$refs.vinculoModal.hide()
@@ -201,5 +251,8 @@ export default {
   }
   .td-25 {
       width: 25%;
+  }
+  .mao {
+      cursor: pointer;
   }
 </style>
