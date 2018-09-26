@@ -36,15 +36,7 @@
                         <b-col md="3">
                             <b-form-group>
                                 <label for="telefone">Telefone</label>
-                                <masked-input
-                                    type="text"
-                                    name="telefone"
-                                    class="form-control"
-                                    v-model="jogador.telefone"
-                                    :mask="['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]"
-                                    :guide="true"
-                                    placeholderChar="#"
-                                    autocomplete="off"></masked-input>
+                                <the-mask id="telefone" class="form-control" v-model="jogador.telefone" :mask="['(##) ####-####', '(##) #####-####']" autocomplete="off" />
                             </b-form-group>
                         </b-col>
                     </b-row>

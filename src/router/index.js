@@ -69,7 +69,6 @@ const TimesEditar = () => import('@/views/clubes/TimesEditar')
 //Jogadores
 const Jogadores = () => import('@/views/clubes/Jogadores')
 const JogadoresNovo = () => import('@/views/clubes/JogadoresNovo')
-const JogadoresEditar = () => import('@/views/clubes/JogadoresEditar')
 
 Vue.use(Router)
 
@@ -123,8 +122,7 @@ export default new Router({
               meta: {auth: true},
               children: [
                 { path: 'list', name:'Lista de jogadores', component: Jogadores, meta: {auth: true} },
-                { path: 'novo', name:'Cadastrar jogador', component: JogadoresNovo, meta: {auth: true} },
-                { path: ':jogador/editar', name:'Editar jogador', component: JogadoresEditar, meta: {auth: true} },
+                { path: 'novo', name:'Cadastrar jogador', component: JogadoresNovo, meta: {auth: true} }
               ]
             }
           ]

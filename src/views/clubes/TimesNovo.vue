@@ -3,7 +3,7 @@
         <b-col md="12">
             <div class="card">
                 <div class="card-header">
-                    <h6>Cadastrando time para o clube xxxxxxxx</h6>
+                    <h6>Cadastrando time para o clube {{nomeClube}}</h6>
                 </div>
                 <div class="card-body">
                     <b-row>
@@ -54,13 +54,23 @@ export default {
     },
     data: function(){
         return {
+            idClube: 0,
+            nomeClube: '',
             time: {}
         }
     },
     created () {
-        this.time.ativo = true
+        this.time.ativo = true,
+        this.idClube = this.$route.params.id
+        this.getClube()
     },
     methods: {
+        getClube(){
+            return this.$http.get('clubes/' + this.idClube + '/')
+            .then(response => {
+                    this.nomeClube = response.data.nome;
+            });
+        },
         salvar (){
             this.$http.post('times/',{
                 nome: this.time.nome,

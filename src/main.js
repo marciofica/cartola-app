@@ -11,6 +11,7 @@ import VueAxios from 'vue-axios';
 import VueAuth from '@websanova/vue-auth'
 import 'vue2-toast/lib/toast.css'
 import Toast from 'vue2-toast'
+import VueTheMask from 'vue-the-mask'
 
 import App from './App'
 
@@ -26,7 +27,7 @@ Vue.use(Toast)
 Vue.use(VueAxios, axios);
 Vue.axios.defaults.baseURL = 'http://localhost:8000'
 
-Vue.use(BootstrapVue)
+Vue.use(VueTheMask)
 
 Vue.use(VueAuth, {
   auth: {

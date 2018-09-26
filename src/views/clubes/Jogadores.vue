@@ -35,7 +35,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="align-middle">
-                        <span>Jogadores do elenco</span> <span class="badge badge-success float-right">33 jogadores</span>
+                        <span>Jogadores do elenco</span> <!--span class="badge badge-success float-right">33 jogadores</span -->
                     </div>
                 </div>
                 <div class="card-body">
@@ -43,9 +43,13 @@
                         <b-list-group-item v-for="item in jogadoresClube" v-bind:key="item.id" @click="editarJogadorClube(item)" class="flex-column align-items-start mao">
                             <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">{{item.usuario.first_name}}</h5>
-                            <small>Membro desde {{item.data_membro | moment("DD/MM/YYYY") }}</small>
+                            <small>{{nomeClube}} - Membro desde {{item.data_membro | moment("DD/MM/YYYY") }}</small>
                             </div>
-                            <p class="mb-1">Apelido: {{item.usuario.apelido}} | Camisa: {{item.numero_camisa}} | Posição: {{item.posicao}} | Nota: {{item.nota}} </p>
+                            <span class="badge badge-secondary mr-2">Apelido: {{item.usuario.apelido}}</span>
+                            <span class="badge badge-secondary mr-2">Camisa: {{item.numero_camisa}}</span>
+                            <span class="badge badge-secondary mr-2">Posição: {{item.posicao}}</span>
+                            <span class="badge badge-secondary mr-2">Nota: {{item.nota}}</span>                            
+                            <span class="badge badge-secondary" v-if="item.mensalista">Mensalista</span>
                         </b-list-group-item>
                     </b-list-group>
                 </div>
@@ -75,24 +79,15 @@
                     <b-form-group>
                         <label for="posicao">Posição</label>
                         <b-form-select id="posicao"
-                            size="lg"
                             :plain="true"
                             :multiple="false"
                             :options="[
-                                {
-                                text: 'Goleiro',
-                                value: 'GO'
-                                },
-                                {
-                                text: 'Zagueiro',
-                                value: 'ZG'
-                                }, {
-                                text: 'Meio',
-                                value: 'MC'
-                                }, {
-                                text: 'Atacante',
-                                value: 'AT'
-                                }, ]"
+                                { text: 'Goleiro', value: 'GO' },
+                                { text: 'Zagueiro', value: 'ZG' },
+                                { text: 'Lateral', value: 'LT' }, 
+                                { text: 'Meio', value: 'MC' }, 
+                                { text: 'Atacante', value: 'AT'}, 
+                            ]"
                             v-focus v-model="jogadorClube.posicao">
                         </b-form-select>
                     </b-form-group>
