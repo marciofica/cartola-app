@@ -41,8 +41,7 @@
         <DefaultAside/>
       </AppAside>
     </div>
-    <TheFooter>
-      <!--footer-->
+    <!--TheFooter>
       <div>
         <a href="https://coreui.io">CoreUI</a>
         <span class="ml-1">&copy; 2018 creativeLabs.</span>
@@ -51,7 +50,7 @@
         <span class="mr-1">Powered by</span>
         <a href="https://coreui.io">CoreUI for Vue</a>
       </div>
-    </TheFooter>
+    </TheFooter -->
   </div>
 </template>
 

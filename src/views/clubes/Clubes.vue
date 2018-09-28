@@ -62,7 +62,8 @@
                         <b-dropdown-item @click="editar(item)">Editar</b-dropdown-item>
                         <b-dropdown-item :to="{ name: 'Times', params: { id: item.id } }">Times</b-dropdown-item>
                         <b-dropdown-item :to="{ name: 'Jogadores', params: { id: item.id } }">Jogadores</b-dropdown-item>
-                        <b-dropdown-item>Partidas</b-dropdown-item>                        
+                        <b-dropdown-item :to="{ name: 'Partidas', params: { id: item.id } }">Partidas</b-dropdown-item>
+                        <b-dropdown-item disabled>Indicadores</b-dropdown-item>
                         <b-dropdown-item disabled>Financeiro</b-dropdown-item>
                     </b-dropdown>
                     <h4 class="mb-0">{{item.nome}}</h4>
