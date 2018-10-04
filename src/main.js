@@ -18,6 +18,10 @@ import App from './App'
 import router from './router'
 Vue.router = router
 
+import VueMoment from 'vue-moment'
+import moment from 'moment-timezone'
+
+
 // todo
 // cssVars()
 
@@ -52,7 +56,9 @@ Vue.use(VueAuth, {
   tokenStore: ['localStorage', 'cookie']
 })
 
-Vue.use(require('vue-moment'))
+Vue.use(VueMoment, {
+  moment,
+})
 
 Vue.directive('focus', {
   inserted: function (el) {

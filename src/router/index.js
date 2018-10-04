@@ -62,16 +62,17 @@ const User = () => import('@/views/users/User')
 const Clubes = () => import('@/views/clubes/Clubes')
 
 //Times
-const Times = () => import('@/views/clubes/Times')
-const TimesNovo = () => import('@/views/clubes/TimesNovo')
-const TimesEditar = () => import('@/views/clubes/TimesEditar')
+const Times = () => import('@/views/clubes/times/Times')
+const TimesNovo = () => import('@/views/clubes/times/TimesNovo')
+const TimesEditar = () => import('@/views/clubes/times/TimesEditar')
 
 //Jogadores
-const Jogadores = () => import('@/views/clubes/Jogadores')
-const JogadoresNovo = () => import('@/views/clubes/JogadoresNovo')
+const Jogadores = () => import('@/views/clubes/jogadores/Jogadores')
+const JogadoresNovo = () => import('@/views/clubes/jogadores/JogadoresNovo')
 
 //Partidas
 const Partidas = () => import('@/views/clubes/partidas/Partidas')
+const PartidasNovo = () => import('@/views/clubes/partidas/PartidasNovo')
 
 Vue.use(Router)
 
@@ -138,7 +139,7 @@ export default new Router({
               meta: {auth: true},
               children: [
                 { path: 'list', name:'Lista de partidas', component: Partidas, meta: {auth: true} },
-                //{ path: 'novo', name:'Cadastrar jogador', component: JogadoresNovo, meta: {auth: true} }
+                { path: 'novo', name:'Cadastrar partida', component: PartidasNovo, meta: {auth: true} }
               ]
             }
           ]

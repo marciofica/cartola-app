@@ -2,29 +2,31 @@
     <b-card>
       <b-row>
         <b-col sm="5">
-          <h4 id="traffic" class="card-title mb-0">Traffic</h4>
+          <h4 id="traffic" class="card-title mb-0">Partidas</h4>
         </b-col>
-        <b-col sm="7" class="d-none d-md-block">
-          <b-button variant="primary" class="float-right"><i class="fa fa-plus"></i> Adicionar partida</b-button>  
+        <b-col sm="7" class="d-none d-md-block mb-2">
+          <b-button variant="primary" class="float-right" :to="{ path: 'novo'}"><i class="fa fa-plus"></i> Adicionar partida</b-button>  
         </b-col>
       </b-row>
       <b-row>
-            <b-col sm="6" lg="3">
+            <b-col sm="6" lg="3" v-for="item in registros" :key="item.id">
                 <b-card no-body>
                     <div slot="header">
-                        <span class="float-left">Data: 26/08/2018 18:30</span>
-                        <b-badge variant="primary" class="float-right">Criada</b-badge>
+                        <div class="card-header-actions">
+                            <b-link href="#" class="card-header-action btn-setting">
+                            <i class="icon-settings"></i>
+                            </b-link>
+                        </div>
+                        <span class="float-left">{{item.dh_partida | moment("DD/MM/YYYY HH:mm")}}</span>                        
                     </div>
                     <b-card-body>
-                        <p class="text-center">Local: Dingos´s Point Ball</p>
-                        <p class="text-center">Time 1 x Time 2</p>
+                        <div class="mb-1"><i class="fa fa-angle-right"></i> {{item.time1.nome}}</div>
+                        <div><i class="fa fa-angle-right"></i> {{item.time2.nome}}</div>
+                        <p class="mb-1 text-right"><b-badge variant="secondary" class="float-right">Criada</b-badge></p>
                     </b-card-body>
-                    <div slot="footer">
-                        <b-button variant="primary" class="btn-sm float-right"><i class="fa fa-cog"></i></b-button>
-                    </div>
                 </b-card>
             </b-col>
-            <b-col sm="6" lg="3">
+            <!--b-col sm="6" lg="3">
                 <b-card no-body>
                     <div slot="header">
                         <span class="float-left">Data: 26/08/2018 18:30</span>
@@ -85,13 +87,29 @@
                         <b-button variant="primary" class="btn-sm float-right"><i class="fa fa-cog"></i></b-button>
                     </div>
                 </b-card>
-            </b-col>
+            </b-col -->
         </b-row>
     </b-card>
 </template>
 <script>
 export default {
-    name: "Partidas"
+    name: "Partidas",
+    data () {
+        return {
+            registros: []
+        }
+    },
+    mounted () {
+        this.getAll()
+    },
+    methods: {
+        getAll() {
+            return this.$http.get('partidas/')
+                .then(response => {
+                    this.registros = response.data;
+                });
+        },
+    }
 }
 </script>
 
