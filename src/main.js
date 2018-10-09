@@ -21,6 +21,8 @@ Vue.router = router
 import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
 
+moment.tz.setDefault('Asia/America_SaoPaulo')
+Vue.prototype.$moment = moment
 
 // todo
 // cssVars()

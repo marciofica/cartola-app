@@ -2,13 +2,16 @@
     <b-card>
       <b-row>
         <b-col sm="5">
-          <h4 id="traffic" class="card-title mb-0">Partidas</h4>
+          <h4 class="card-title mb-0">({{nomeClube}}) Partidas</h4>
         </b-col>
         <b-col sm="7" class="d-none d-md-block mb-2">
           <b-button variant="primary" class="float-right" :to="{ path: 'novo'}"><i class="fa fa-plus"></i> Adicionar partida</b-button>  
         </b-col>
       </b-row>
       <b-row>
+          <b-col sm="12" v-if="registros.length < 1">
+              <h4 class="text-center">Nenhuma partida ainda cadastrada!</h4>
+          </b-col>
             <b-col sm="6" lg="3" v-for="item in registros" :key="item.id">
                 <b-card no-body>
                     <div slot="header">
@@ -96,13 +99,25 @@ export default {
     name: "Partidas",
     data () {
         return {
-            registros: []
+            registros: [],
+            idClube: 0,
+            nomeClube: ''
         }
     },
+    created () {
+        this.idClube = this.$route.params.id
+    },
     mounted () {
+        this.getClube()
         this.getAll()
     },
     methods: {
+        getClube(){
+            return this.$http.get('clubes/' + this.idClube + '/')
+            .then(response => {
+                    this.nomeClube = response.data.nome;
+            });
+        },
         getAll() {
             return this.$http.get('partidas/')
                 .then(response => {

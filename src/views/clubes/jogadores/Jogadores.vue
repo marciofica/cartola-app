@@ -39,8 +39,9 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <h5 class="text-center" v-if="jogadoresClube.length < 1">Nenhum jogador no elenco!</h5>
                     <b-list-group>
-                        <b-list-group-item v-for="item in jogadoresClube" v-bind:key="item.id" @click="editarJogadorClube(item)" class="flex-column align-items-start mao">
+                        <b-list-group-item v-if="jogadoresClube.length > 0" v-for="item in jogadoresClube" v-bind:key="item.id" @click="editarJogadorClube(item)" class="flex-column align-items-start mao">
                             <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">{{item.usuario.first_name}}</h5>
                             <small>{{nomeClube}} - Membro desde {{item.data_membro | moment("DD/MM/YYYY") }}</small>

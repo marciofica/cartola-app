@@ -4,12 +4,13 @@
             <div class="card">
                 <div class="card-header">
                     <div class="h6">
-                        Times do clube: {{ nomeClube }}
+                        ({{ nomeClube }}) Lista de times
                         <router-link class="btn btn-square btn-sm btn-primary float-right" :to="{ path: 'novo'}"><i class="fa fa-plus"></i> Adicionar time</router-link>
                     </div>
                 </div>
                 <div class="card-body">
-                    <b-table class="mb-0 table-outline" responsive="sm" hover :items="tableItems" :fields="tableFields" head-variant="light">
+                    <h4 class="text-center" v-if="tableItems.length < 1">Nenhum time ainda cadastrado!</h4>
+                    <b-table class="mb-0 table-outline" responsive="sm" v-if="tableItems.length > 0" hover :items="tableItems" :fields="tableFields" head-variant="light">
                         <div slot="ativo" slot-scope="item">
                             <span v-bind:class="{ 'badge badge-success': item.value,  'badge badge-secondary': !item.value }">
                                 {{item.value? 'Ativo': 'Inativo'}}
