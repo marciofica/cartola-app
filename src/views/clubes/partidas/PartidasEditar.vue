@@ -74,11 +74,12 @@
                                     </b-col>
                                 </b-row>
                         </b-tab>
-                        <b-tab>
+                        <b-tab @click="getJogadores()">
                             <template slot="title">
                                 <i class="fa fa-users"></i> {{tabs[1]}}
                             </template>
-                            Relação de jogadores convocados
+                            
+
                         </b-tab>
                     </b-tabs>                                        
                 </div>
@@ -149,6 +150,12 @@ export default {
             return this.$http.get('times/?search=true')
             .then(response => {
                 this.convertTimes(response.data)
+            })
+        },
+        getJogadores(){
+             return this.$http.get('partidas-confirmacao/?search=' + this.idPartida)
+            .then(response => {
+                console.log(response.data)
             })
         },
         convertTimes(data){
