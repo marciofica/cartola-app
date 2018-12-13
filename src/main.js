@@ -68,6 +68,10 @@ Vue.directive('focus', {
   }
 })
 
+Vue.directive('dataInput', function(value){
+  console.log(value)
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

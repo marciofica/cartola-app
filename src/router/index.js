@@ -73,6 +73,7 @@ const JogadoresNovo = () => import('@/views/clubes/jogadores/JogadoresNovo')
 //Partidas
 const Partidas = () => import('@/views/clubes/partidas/Partidas')
 const PartidasNovo = () => import('@/views/clubes/partidas/PartidasNovo')
+const PartidasEditar = () => import('@/views/clubes/partidas/PartidasEditar')
 
 Vue.use(Router)
 
@@ -139,7 +140,8 @@ export default new Router({
               meta: {auth: true},
               children: [
                 { path: 'list', name:'Lista de partidas', component: Partidas, meta: {auth: true} },
-                { path: 'novo', name:'Cadastrar partida', component: PartidasNovo, meta: {auth: true} }
+                { path: 'novo', name:'Cadastrar partida', component: PartidasNovo, meta: {auth: true} },
+                { path: ':partida/editar', name:'Gerenciar partida', component: PartidasEditar, meta: {auth: true} }
               ]
             }
           ]

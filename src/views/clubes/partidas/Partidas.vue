@@ -16,8 +16,8 @@
                 <b-card no-body>
                     <div slot="header">
                         <div class="card-header-actions">
-                            <b-link href="#" class="card-header-action btn-setting">
-                            <i class="icon-settings"></i>
+                            <b-link @click.prevent="editar(item.id)" class="card-header-action btn-setting">
+                                <i class="icon-settings"></i>
                             </b-link>
                         </div>
                         <span class="float-left">{{item.dh_partida | moment("DD/MM/YYYY HH:mm")}}</span>                        
@@ -124,6 +124,10 @@ export default {
                     this.registros = response.data;
                 });
         },
+        editar(id) {
+            const param = id
+            this.$router.push({path: `${param}/editar`});
+        }
     }
 }
 </script>
