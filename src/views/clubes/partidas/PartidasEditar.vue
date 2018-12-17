@@ -103,7 +103,30 @@ export default {
             idPartida: 0,
             nomeClube: '',
             partida: {},
-            times: []
+            times: [],
+            tableItems: [],
+            tableFields: {
+                nome: {
+                label: 'Apelido',
+                sortable: true
+                },
+                ano: {
+                label: 'Posição',
+                sortable: true,
+                tdClass: 'td-10'
+                },
+                ativo: {
+                label: 'Ativo',
+                class: 'text-center',
+                sortable: true,
+                tdClass: 'td-5'
+                },
+                acoes: {
+                    label: '',
+                    class: 'text-center',
+                    tdClass: 'td-5'
+                }
+            }
         }
     },
     created () {
