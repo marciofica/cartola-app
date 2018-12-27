@@ -126,13 +126,13 @@ export default {
     },
     methods: {
         getClube(){
-            return this.$http.get('clubes/' + this.idClube + '/')
+            return this.$http.get('clubes/' + this.idClube)
             .then(response => {
                     this.nomeClube = response.data.nome;
             });
         },
         salvar (){
-            this.$http.post('partidas/',{
+            this.$http.post('partidas',{
                 clube: this.$route.params.id,
                 dh_partida: this.partida.dh_partida,
                 local: this.partida.local,
@@ -149,7 +149,7 @@ export default {
             })
         },
         getTimes () {
-            return this.$http.get('times/?search=true')
+            return this.$http.get('times?search=S')
             .then(response => {
                 this.convertTimes(response.data)
             })

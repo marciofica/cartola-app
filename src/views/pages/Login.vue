@@ -60,9 +60,9 @@ export default {
       e.preventDefault()      
       this.$auth.login({
         params: {
-          client_id: 'n0eBCsMsrQUOdsvR8BXIY77mmwU2m58xK7YpInRr', 
+          client_id: 'lS0CceDnK4rEyS2C0FbPmV8KtIlqACSXfTezKOYK', 
           grant_type: 'password', 
-          client_secret: '45vt8CBrAE18kit4Gk94YznLgayHRisy4vkFG8ozZQ9OVh4Cn7nBq6w5eBhglkA7nH5ToJMMmDUA1KYBzQWjtcfZuBGvgdXOtGF1GtPWYN15sZN4Tpl2iGrDAzByWH82', 
+          client_secret: 'BNuOFfmXWVBxbjdmcgDXUU2EFIPZJGuLFKKF0q6pD7TPsw6qWFgkJB9HEeKpjYjhK610izrwcDwIHjYSCvwICdMB4TeH16LdWL794cjhcqQ7qQWeRY5gecPEjdwCRSug', 
           username: this.user.email, 
           password: this.user.password
         },

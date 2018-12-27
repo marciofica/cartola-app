@@ -31,7 +31,7 @@ Vue.use(BootstrapVue)
 Vue.use(Toast)
 
 Vue.use(VueAxios, axios);
-Vue.axios.defaults.baseURL = 'http://localhost:8000'
+Vue.axios.defaults.baseURL = 'http://pokabola.futebol.local:8000'
 
 Vue.use(VueTheMask)
 
@@ -52,8 +52,8 @@ Vue.use(VueAuth, {
   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
   loginData: {url: 'o/token/', method: 'POST', redirect: '/', fetchUser: false},
   logoutData: {url: 'o/revoke_token/', method: 'POST', redirect: '/', makeRequest: true},
-  fetchData: {url: 'user/me/', method: 'GET'},
-  refreshData: {url: 'user/me/', method: 'GET', atInit: false},
+  fetchData: {url: 'user/me', method: 'GET'},
+  refreshData: {url: 'user/me', method: 'GET', atInit: false},
   authRedirect: {path: '/pages/login'},
   tokenStore: ['localStorage', 'cookie']
 })

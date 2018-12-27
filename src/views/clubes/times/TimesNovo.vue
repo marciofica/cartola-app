@@ -28,7 +28,7 @@
                                     color="primary" 
                                     name="ativo" 
                                     v-model="time.ativo" 
-                                    :checked="time.ativo"
+                                    :checked="time.ativo == 'S'"
                                     />
                         </b-col>
                     </b-row>
@@ -60,19 +60,19 @@ export default {
         }
     },
     created () {
-        this.time.ativo = true,
+        this.time.ativo = 'S',
         this.idClube = this.$route.params.id
         this.getClube()
     },
     methods: {
         getClube(){
-            return this.$http.get('clubes/' + this.idClube + '/')
+            return this.$http.get('clubes/' + this.idClube)
             .then(response => {
                     this.nomeClube = response.data.nome;
             });
         },
         salvar (){
-            this.$http.post('times/',{
+            this.$http.post('times',{
                 nome: this.time.nome,
                 ano: this.time.ano,
                 ativo: this.time.ativo,

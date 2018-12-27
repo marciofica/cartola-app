@@ -113,13 +113,13 @@ export default {
     },
     methods: {
         getClube(){
-            return this.$http.get('clubes/' + this.idClube + '/')
+            return this.$http.get('clubes/' + this.idClube)
             .then(response => {
                     this.nomeClube = response.data.nome;
             });
         },
         getAll() {
-            return this.$http.get('partidas/')
+            return this.$http.get('partidas')
                 .then(response => {
                     this.registros = response.data;
                 });

@@ -12,8 +12,8 @@
                     <h4 class="text-center" v-if="tableItems.length < 1">Nenhum time ainda cadastrado!</h4>
                     <b-table class="mb-0 table-outline" responsive="sm" v-if="tableItems.length > 0" hover :items="tableItems" :fields="tableFields" head-variant="light">
                         <div slot="ativo" slot-scope="item">
-                            <span v-bind:class="{ 'badge badge-success': item.value,  'badge badge-secondary': !item.value }">
-                                {{item.value? 'Ativo': 'Inativo'}}
+                            <span v-bind:class="{ 'badge badge-success': item.value == 'S',  'badge badge-secondary': item.value == 'N' }">
+                                {{item.value == 'S'? 'Ativo': 'Inativo'}}
                             </span>
                         </div>
                         <div slot="acoes" slot-scope="data">
@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     getAll(){
-        return this.$http.get('times/', {
+        return this.$http.get('times', {
             params: {
                 clube: this.idClube
             }
@@ -88,7 +88,7 @@ export default {
             
     },
     getClube(){
-        return this.$http.get('clubes/' + this.idClube + '/')
+        return this.$http.get('clubes/' + this.idClube)
         .then(response => {
                 this.nomeClube = response.data.nome;
         });
@@ -102,7 +102,7 @@ export default {
         this.$refs.modal1.hide()
     },
     excluir() {
-        this.$http.delete('times/' + this.time.id + '/').then(response => {
+        this.$http.delete('times/' + this.time.id).then(response => {
             this.$toast.top('Time "' + this.time.nome + '" excluído com sucesso!');
             this.cancelarExclusao()
             this.getAll()

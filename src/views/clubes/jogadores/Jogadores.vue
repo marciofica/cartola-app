@@ -18,14 +18,13 @@
                             </b-input-group-append>
                         </b-input-group>
                     </b-form-group>
-                    
                      <b-list-group>
                         <b-list-group-item v-for="item in jogadoresSearch" v-bind:key="item.id" href="#" class="flex-column align-items-start">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">{{item.first_name}}</h5>
+                                <h5 class="mb-1">{{item.usuario.first_name}}</h5>
                                 <b-button variant="success" @click="prepararVinculo(item)"><i class="fa fa-arrow-right"></i></b-button>
                             </div>
-                            <small class="mb-1">Apelido: {{item.apelido}} | E-mail: {{item.email}}</small>
+                            <small class="mb-1">Apelido: {{item.apelido}} | E-mail: {{item.usuario.email}}</small>
                         </b-list-group-item>
                      </b-list-group>
                 </div>
@@ -43,10 +42,10 @@
                     <b-list-group>
                         <b-list-group-item v-if="jogadoresClube.length > 0" v-for="item in jogadoresClube" v-bind:key="item.id" @click="editarJogadorClube(item)" class="flex-column align-items-start mao">
                             <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{{item.usuario.first_name}}</h5>
+                            <h5 class="mb-1">{{item.jogador.usuario.first_name}}</h5>
                             <small>{{nomeClube}} - Membro desde {{item.data_membro | moment("DD/MM/YYYY") }}</small>
                             </div>
-                            <span class="badge badge-secondary mr-2">Apelido: {{item.usuario.apelido}}</span>
+                            <span class="badge badge-secondary mr-2">Apelido: {{item.jogador.apelido}}</span>
                             <span class="badge badge-secondary mr-2">Camisa: {{item.numero_camisa}}</span>
                             <span class="badge badge-secondary mr-2">Posição: {{item.posicao}}</span>
                             <span class="badge badge-secondary mr-2">Nota: {{item.nota}}</span>                            
@@ -146,19 +145,19 @@ export default {
   },
   methods: {
     searchJogador(){
-        return this.$http.get('jogadores/?search=' + this.query)
+        return this.$http.get('jogadores-search?search=' + this.query)
         .then(response => {
                 this.jogadoresSearch = response.data;
         });  
     },
     searchJogadorClube(){
-        return this.$http.get('jogadores-clubes/?search=' + this.idClube)
+        return this.$http.get('jogadores-clubes')
         .then(response => {
                 this.jogadoresClube = response.data;
         });  
     },
     getClube(){
-        return this.$http.get('clubes/' + this.idClube + '/')
+        return this.$http.get('clubes/' + this.idClube)
         .then(response => {
                 this.nomeClube = response.data.nome;
         });
@@ -169,14 +168,14 @@ export default {
     },
     salvarVinculo(){
         this.jogadorClube.clube = this.idClube
-        this.jogadorClube.usuario = this.jogador.id
-        this.$http.post('jogadores-clubes/',{
+        this.jogadorClube.jogador = this.jogador.id
+        this.$http.post('jogadores-clubes',{
                 mensalista: this.jogadorClube.mensalista,
                 numero_camisa: this.jogadorClube.numero_camisa,
                 posicao: this.jogadorClube.posicao,
                 nota: this.jogadorClube.nota,
                 clube: this.idClube,
-                usuario: this.jogador.id
+                jogador: this.jogador.id
             }).then(response => {
                 this.$toast.top('Vínculo inserido com sucesso!');
                 this.searchJogadorClube()
@@ -188,7 +187,7 @@ export default {
     updateVinculo(){
         this.jogadorClube.clube = this.idClube
         this.jogadorClube.usuario = this.jogador.id
-        this.$http.put('jogadores-clubes/'+ this.jogadorClube.id + '/',{
+        this.$http.put('jogadores-clubes/'+ this.jogadorClube.id ,{
                 id: this.jogadorClube.id,
                 mensalista: this.jogadorClube.mensalista,
                 numero_camisa: this.jogadorClube.numero_camisa,
@@ -222,7 +221,7 @@ export default {
         this.$refs.modal1.hide()
     },
     excluir() {
-        this.$http.delete('jogadores/' + this.jogador.id + '/').then(response => {
+        this.$http.delete('jogadores/' + this.jogador.id).then(response => {
             this.$toast.top('Jogador "' + this.jogador.first_name + '" excluído com sucesso!');
             this.cancelarExclusao()
             this.searchJogadorClube()

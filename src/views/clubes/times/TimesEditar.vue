@@ -28,7 +28,7 @@
                                     color="primary" 
                                     name="ativo" 
                                     v-model="time.ativo" 
-                                    :checked="time.ativo"
+                                    :checked="time.ativo == 'S'"
                                     />
                         </b-col>
                     </b-row>
@@ -65,7 +65,7 @@ export default {
     },
     methods: {
         salvar (){
-            this.$http.post('times/',{
+            this.$http.post('times',{
                 nome: this.time.nome,
                 ano: this.time.ano,
                 ativo: this.time.ativo,
@@ -78,13 +78,13 @@ export default {
             })
         },
         getTime(){
-            return this.$http.get('times/' + this.idTime + '/')
+            return this.$http.get('times/' + this.idTime)
             .then(response => {
                     this.time = response.data;
             });
         },
         atualizar() {
-            this.$http.put('times/' + this.time.id + '/',{
+            this.$http.put('times/' + this.time.id,{
                 id: this.time.id,
                 nome: this.time.nome,
                 ativo: this.time.ativo,

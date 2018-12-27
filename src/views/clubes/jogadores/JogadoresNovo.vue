@@ -69,7 +69,7 @@ export default {
     },
     methods: {
         salvar (){
-            this.$http.post('jogadores/',{
+            this.$http.post('jogadores',{
                 first_name: this.jogador.first_name,
                 apelido: this.jogador.apelido,
                 email: this.jogador.email,

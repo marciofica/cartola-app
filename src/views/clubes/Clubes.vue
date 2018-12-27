@@ -33,12 +33,21 @@
                                         required>
                             </b-form-input>
                         </b-form-group>
+                        <b-form-group id="exampleInputGroup1"
+                                        label="Subdomínio"
+                                        label-for="subdominio">
+                            <b-form-input id="subdominio"
+                                        type="text"
+                                        v-model="registro.subdominio"
+                                        required>
+                            </b-form-input>
+                        </b-form-group>
                         <b-form-group id="exampleInputGroup2"
                                         label="Data de fundação"
                                         label-for="fundacao">
                             <b-form-input id="fundacao"
                                         type="date"
-                                        v-model="registro.fundacao"
+                                        v-model="registro.data_clube"
                                         required>
                             </b-form-input>
                         </b-form-group>
@@ -67,7 +76,7 @@
                         <b-dropdown-item disabled>Financeiro</b-dropdown-item>
                     </b-dropdown>
                     <h4 class="mb-0">{{item.nome}}</h4>
-                    <p>Data de fundação: {{item.fundacao | moment("DD/MM/YYYY")}}</p>
+                    <p>Data de fundação: {{item.data_clube | moment("DD/MM/YYYY")}}</p>
                     <!--p>4 times | 28 Atletas | 192 partidas</p -->
                 </b-card-body>
                 <!-- card-line1-chart-example chartId="card-chart-01" class="chart-wrapper px-3" style="height:70px;" :height="70"/ -->
@@ -108,15 +117,16 @@ export default {
             this.registro = item
         },
         getAll() {
-            return this.$http.get('clubes/')
+            return this.$http.get('clubes')
                 .then(response => {
                     this.registros = response.data;
                 });
         },
         salvar() {
-            this.$http.post('clubes/',{
+            this.$http.post('clubes',{
                 nome: this.registro.nome,
-                fundacao: this.registro.fundacao
+                data_clube: this.registro.data_clube,
+                subdominio: this.registro.subdominio
             }).then(response => {
                 this.registro = response.data;
                 this.isCreate = false;
@@ -128,9 +138,10 @@ export default {
             })
         },
         atualizar() {
-            this.$http.put('clubes/' + this.registro.id + '/',{
+            this.$http.put('clubes/' + this.registro.id,{
                 nome: this.registro.nome,
-                fundacao: this.registro.fundacao
+                data_clube: this.registro.data_clube,
+                subdominio: this.registro.subdominio
             }).then(response => {
                 this.registro = response.data;
                 this.isUpdate = false;
@@ -142,7 +153,7 @@ export default {
             })
         },
         excluir() {
-           this.$http.delete('clubes/' + this.registro.id + '/').then(response => {
+           this.$http.delete('clubes/' + this.registro.id).then(response => {
                 this.isUpdate = false;
                 this.$toast.top('Clube "' + this.registro.nome + '" excluído com sucesso!');
                 this.clearFields()
