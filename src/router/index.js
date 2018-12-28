@@ -75,6 +75,10 @@ const Partidas = () => import('@/views/clubes/partidas/Partidas')
 const PartidasNovo = () => import('@/views/clubes/partidas/PartidasNovo')
 const PartidasEditar = () => import('@/views/clubes/partidas/PartidasEditar')
 
+//Indicadores
+const Indicadores = () => import('@/views/clubes/indicadores/Indicadores')
+const IndicadoresNovo = () => import('@/views/clubes/indicadores/IndicadoresNovo')
+
 Vue.use(Router)
 
 export default new Router({
@@ -115,6 +119,20 @@ export default new Router({
                 { path: 'list', name:'Lista de times', component: Times, meta: {auth: true} },
                 { path: 'novo', name:'Cadastrar time', component: TimesNovo, meta: {auth: true} },
                 { path: ':time/editar', name:'Editar time', component: TimesEditar, meta: {auth: true} },
+              ]
+            },
+            { 
+              path: '/clubes/:id/indicadores',
+              redirect: '/clubes/:id/indicadores/list', 
+              name:'Indicadores', 
+              component: {
+                render (c) { return c('router-view') }
+              }, 
+              meta: {auth: true} ,
+              children: [
+                { path: 'list', name:'Lista de indicadores', component: Indicadores, meta: {auth: true} },
+                { path: 'novo', name:'Cadastrar indicador', component: IndicadoresNovo, meta: {auth: true} },
+                { path: ':indicador/editar', name:'Editar indicador', component: TimesEditar, meta: {auth: true} },
               ]
             },
             {

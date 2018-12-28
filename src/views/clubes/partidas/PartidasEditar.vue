@@ -116,22 +116,38 @@
         <b-modal id="jogadorModal" ref="jogadorModal" title="Adicionar jogador" busy>
             <b-row class="mb-2">
                 <b-col md="12">
-                    <b-form-group label-for="elementsAppendButton" description="Localize o jogador">
+                    <b-form-group label-for="elementsAppendButton">
                         <b-input-group>
                             <b-form-input id="elementsAppendButton" v-focus type="text"></b-form-input>
                             <b-input-group-append>
-                            <b-button variant="secondary">Buscar</b-button>
+                            <b-button variant="secondary" @click="searchJogadorClube">Buscar</b-button>
                             </b-input-group-append>
                         </b-input-group>
                     </b-form-group>
                 </b-col>
             </b-row>
             <b-row>
-                
+                <b-col md="12">
+                    <h5 class="text-center" v-if="jogadoresClube.length < 1">Localize o jogador</h5>
+                    <b-list-group>
+                        <b-list-group-item v-if="jogadoresClube.length > 0" v-for="item in jogadoresClube" v-bind:key="item.id" class="flex-column align-items-start mao">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{item.jogador.usuario.first_name}}</h5>
+                                <b-button variant="success" size="sm" @click="adicionarJogadorPartida(item)">Adicionar</b-button>
+                            </div>
+                            <span class="badge badge-secondary mr-2">Apelido: {{item.jogador.apelido}}</span>
+                            <span class="badge badge-secondary mr-2">Camisa: {{item.numero_camisa}}</span>
+                            <span class="badge badge-secondary mr-2">Posição: {{item.posicao}}</span>
+                            <span class="badge badge-secondary mr-2">Nota: {{item.nota}}</span>                            
+                            <span class="badge badge-secondary" v-if="item.mensalista">Mensalista</span>
+                        </b-list-group-item>
+                    </b-list-group>
+                </b-col>
             </b-row>
+            <div slot="modal-footer" class="w-100">
+                <b-btn size="sm" class="float-right ml-2" variant="primary" @click="closeModal">Fechar</b-btn>
+            </div>
         </b-modal>
-
-
 
     </div>
 </template>
@@ -150,8 +166,12 @@ export default {
             idClube: 0,
             idPartida: 0,
             nomeClube: '',
-            partida: {},
+            partida: {
+                time1: {},
+                time2:{}
+            },
             times: [],
+            jogadoresClube:[],
             tableItems: [],
             tableFields: {
                 apelido: {
@@ -285,7 +305,25 @@ export default {
             this.$refs.jogadorModal.show()
         },
         searchJogadorClube(){
-
+            return this.$http.get('jogadores-clubes')
+            .then(response => {
+                    this.jogadoresClube = response.data;
+            });
+        },
+        adicionarJogadorPartida(data) {
+            this.$http.post('partidas-confirmacao',{
+                jogador: data.jogador.id,
+                partida: this.idPartida
+            }).then(response => {
+                this.$toast.top('Atleta inserido com sucesso!');
+                this.getJogadores()
+            }).catch(e => {
+                this.$toast.top(e);
+            })
+        },
+        closeModal(){
+            this.jogadoresClube = []
+            this.$refs.jogadorModal.hide()
         },
         frontEndDateFormat: function(date) {
             return this.$moment(date, 'YYYY-MM-DD HH:mm').format('DD/MM/YYYY HH:mm');
