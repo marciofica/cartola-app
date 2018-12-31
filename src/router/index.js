@@ -78,6 +78,7 @@ const PartidasEditar = () => import('@/views/clubes/partidas/PartidasEditar')
 //Indicadores
 const Indicadores = () => import('@/views/clubes/indicadores/Indicadores')
 const IndicadoresNovo = () => import('@/views/clubes/indicadores/IndicadoresNovo')
+const IndicadoresEditar = () => import('@/views/clubes/indicadores/IndicadoresEditar')
 
 Vue.use(Router)
 
@@ -132,7 +133,7 @@ export default new Router({
               children: [
                 { path: 'list', name:'Lista de indicadores', component: Indicadores, meta: {auth: true} },
                 { path: 'novo', name:'Cadastrar indicador', component: IndicadoresNovo, meta: {auth: true} },
-                { path: ':indicador/editar', name:'Editar indicador', component: TimesEditar, meta: {auth: true} },
+                { path: ':indicador/editar', name:'Editar indicador', component: IndicadoresEditar, meta: {auth: true} },
               ]
             },
             {
