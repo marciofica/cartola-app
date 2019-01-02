@@ -90,8 +90,8 @@
                                             {{item.value == 'S'? 'Sim': 'Não'}}
                                         </span>
                                     </div>
-                                    <div slot="dh_confirmacao" slot-scope="item">
-                                        {{ stringDateFormat(item) }}
+                                    <div slot="dh_confirmacao" slot-scope="data">
+                                        {{ frontEndDateFormat(data.item.dh_confirmacao) }}
                                     </div>
                                     <div slot="acoes" slot-scope="data">
                                         <b-dropdown id="ddown-sm" size="sm" right class="m-2" variant="light">
@@ -104,8 +104,32 @@
                                         </b-dropdown>                            
                                     </div>
                                 </b-table>
-
                             </b-tab>
+
+                            <b-tab @click="getIndicadores()">
+                                <template slot="title">
+                                    <i class="fa fa-line-chart"></i> {{tabs[2]}}
+                                </template>
+                                <b-row>
+                                    <b-col sm="12" class="d-none d-md-block mb-2">
+                                        <b-button variant="primary" class="float-right" @click="modalIndicador"><i class="fa fa-plus"></i> Indicador</b-button>  
+                                    </b-col>
+                                </b-row>
+                                <b-table class="mb-0 table-outline" responsive="sm" v-if="indicadorItems.length > 0" hover :items="indicadorItems" :fields="indicadorFields" head-variant="light">
+                                    <div slot="dh_validade" slot-scope="data">
+                                        {{ frontEndDateFormat(data.item.dh_validade) }}
+                                    </div>
+                                    <div slot="acoes" slot-scope="data">
+                                        <b-dropdown id="ddown-sm" size="sm" right class="m-2" variant="light">
+                                            <template slot="button-content">
+                                                <i class="fa fa-cogs"></i><span class="sr-only">Opções</span>
+                                            </template>
+                                            <b-dropdown-item-button @click="excluiIndicadorDaPartida(data.item.id)">Excluir</b-dropdown-item-button>
+                                        </b-dropdown>                            
+                                    </div>
+                                </b-table>
+                            </b-tab>
+
                         </b-tabs>                                        
                     </div>
                 </div>
@@ -149,6 +173,40 @@
             </div>
         </b-modal>
 
+
+        <!-- Indicador modal -->
+        <b-modal id="indicadorModal" ref="indicadorModal" title="Indicadores" busy>
+            <b-row class="mb-2">
+                <b-col md="12">
+                    <b-form-group label-for="elementsAppendButton">
+                        <b-input-group>
+                            <b-form-input id="elementsAppendButton" v-focus type="text"></b-form-input>
+                            <b-input-group-append>
+                            <b-button variant="secondary" @click="searchIndicador">Buscar</b-button>
+                            </b-input-group-append>
+                        </b-input-group>
+                    </b-form-group>
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col md="12">
+                    <h5 class="text-center" v-if="indicadoresList.length < 1">Localize o indicador</h5>
+                    <b-list-group>
+                        <b-list-group-item v-if="indicadoresList.length > 0" v-for="item in indicadoresList" v-bind:key="item.id" class="flex-column align-items-start mao">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{item.nome}}</h5>
+                                <b-button variant="success" size="sm" @click="adicionarIndicador(item)">Adicionar</b-button>
+                            </div>
+                            <span>{{item.descricao}}</span>
+                        </b-list-group-item>
+                    </b-list-group>
+                </b-col>
+            </b-row>
+            <div slot="modal-footer" class="w-100">
+                <b-btn size="sm" class="float-right ml-2" variant="primary" @click="closeModalIndicador">Fechar</b-btn>
+            </div>
+        </b-modal>
+
     </div>
 </template>
 
@@ -172,6 +230,7 @@ export default {
             },
             times: [],
             jogadoresClube:[],
+            indicadoresList: [],
             tableItems: [],
             tableFields: {
                 apelido: {
@@ -203,6 +262,26 @@ export default {
                     class: 'text-center',
                     sortable: true,
                     tdClass: 'td-5'
+                },
+                acoes: {
+                    label: '',
+                    class: 'text-center',
+                    tdClass: 'td-2'
+                }
+            },
+            indicadorItems: [],
+            indicadorFields: {
+               nome: {
+                    key: 'indicador.nome',
+                    label: 'Nome'
+                },
+                descricao: {
+                    key: 'indicador.descricao',
+                    label: 'Descrição'
+                },
+                dh_validade: {
+                    key: 'dh_validade',
+                    label: 'Válido até'
                 },
                 acoes: {
                     label: '',
@@ -325,16 +404,51 @@ export default {
             this.jogadoresClube = []
             this.$refs.jogadorModal.hide()
         },
+        getIndicadores(){
+            return this.$http.get('partidas-indicador?search=' + this.idPartida)
+            .then(response => {
+                this.indicadorItems = response.data;
+            })
+        },
+        excluiIndicadorDaPartida(id){
+            this.$http.delete('partidas-indicador/' + id).then(response => {
+                this.$toast.top('Indicador excluído com sucesso!')
+                this.getIndicadores()
+            }).catch(e => {
+                this.$toast.top(e.error)
+            })
+        },
+        searchIndicador(){
+            return this.$http.get('indicadores?search=S')
+            .then(response => {
+                    this.indicadoresList = response.data;
+            });
+        },
+        modalIndicador(){
+            this.$refs.indicadorModal.show()
+        },
+        closeModalIndicador(){
+            this.indicadoresList = []
+            this.$refs.indicadorModal.hide()
+        },
+        adicionarIndicador(data) {
+            this.$http.post('partidas-indicador',{
+                indicador: data.id,
+                partida: this.idPartida,
+                dh_validade: this.$moment().add(5, "days")
+            }).then(response => {
+                this.$toast.top('Indicador inserido com sucesso!')
+                this.getIndicadores()
+            }).catch(e => {
+                this.$toast.top(e)
+            })
+        },
         frontEndDateFormat: function(date) {
-            return this.$moment(date, 'YYYY-MM-DD HH:mm').format('DD/MM/YYYY HH:mm');
+            return this.$moment(date, 'YYYY-MM-DD HH:mm').format('DD/MM/YYYY HH:mm')
         },
         backEndDateFormat: function(date) {
-            return this.$moment(date, 'DD/MM/YYYY HH:mm').format('YYYY-MM-DD HH:mm');
-        },
-        stringDateFormat: function(string) {
-            if(string.item.dh_confirmacao == null) return
-            return this.$moment(string.item.dh_confirmacao).format('DD/MM/YYYY HH:mm:ss');
-        },
+            return this.$moment(date, 'DD/MM/YYYY HH:mm').format('YYYY-MM-DD HH:mm')
+        }
     }
 }
 </script>
