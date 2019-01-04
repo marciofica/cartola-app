@@ -419,7 +419,7 @@ export default {
             })
         },
         searchIndicador(){
-            return this.$http.get('indicadores?search=S')
+            return this.$http.get('indicadores-modal?search=S&partida='+this.idPartida)
             .then(response => {
                     this.indicadoresList = response.data;
             });

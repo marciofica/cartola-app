@@ -31,14 +31,14 @@ Vue.use(BootstrapVue)
 Vue.use(Toast)
 
 Vue.use(VueAxios, axios);
-Vue.axios.defaults.baseURL = 'http://pokabola.futebol.local:8000'
+Vue.axios.defaults.baseURL = 'http://localhost:8000'
 
 Vue.use(VueTheMask)
 
 Vue.use(VueAuth, {
   auth: {
     request: function (req, token) {
-      this.options.http._setHeaders.call(this, req, {Authorization: 'Bearer ' + token})
+      this.options.http._setHeaders.call(this, req, {Authorization: 'Bearer ' + token, clube: 'pokabola'})
     },
     response: function (res) {
       var token = res.data.access_token
