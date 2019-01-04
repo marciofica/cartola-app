@@ -35,10 +35,12 @@ Vue.axios.defaults.baseURL = 'http://localhost:8000'
 
 Vue.use(VueTheMask)
 
+localStorage.setItem('clube', 'pokabola')
+
 Vue.use(VueAuth, {
   auth: {
     request: function (req, token) {
-      this.options.http._setHeaders.call(this, req, {Authorization: 'Bearer ' + token, clube: 'pokabola'})
+      this.options.http._setHeaders.call(this, req, {Authorization: 'Bearer ' + token, clube: localStorage.getItem('clube')})
     },
     response: function (res) {
       var token = res.data.access_token
