@@ -153,19 +153,21 @@
             <b-row>
                 <b-col md="12">
                     <h5 class="text-center" v-if="jogadoresClube.length < 1">Localize o jogador</h5>
-                    <b-list-group>
-                        <b-list-group-item v-if="jogadoresClube.length > 0" v-for="item in jogadoresClube" v-bind:key="item.id" class="flex-column align-items-start mao">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">{{item.jogador.usuario.first_name}}</h5>
-                                <b-button variant="success" size="sm" @click="adicionarJogadorPartida(item)">Adicionar</b-button>
-                            </div>
-                            <span class="badge badge-secondary mr-2">Apelido: {{item.jogador.apelido}}</span>
-                            <span class="badge badge-secondary mr-2">Camisa: {{item.numero_camisa}}</span>
-                            <span class="badge badge-secondary mr-2">Posição: {{item.posicao}}</span>
-                            <span class="badge badge-secondary mr-2">Nota: {{item.nota}}</span>                            
-                            <span class="badge badge-secondary" v-if="item.mensalista">Mensalista</span>
-                        </b-list-group-item>
-                    </b-list-group>
+                    <div v-if="jogadoresClube.length > 0">
+                        <b-list-group>
+                            <b-list-group-item v-for="item in jogadoresClube" v-bind:key="item.id" class="flex-column align-items-start mao">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">{{item.jogador.usuario.first_name}}</h5>
+                                    <b-button variant="success" size="sm" @click="adicionarJogadorPartida(item)">Adicionar</b-button>
+                                </div>
+                                <span class="badge badge-secondary mr-2">Apelido: {{item.jogador.apelido}}</span>
+                                <span class="badge badge-secondary mr-2">Camisa: {{item.numero_camisa}}</span>
+                                <span class="badge badge-secondary mr-2">Posição: {{item.posicao}}</span>
+                                <span class="badge badge-secondary mr-2">Nota: {{item.nota}}</span>                            
+                                <span class="badge badge-secondary" v-if="item.mensalista">Mensalista</span>
+                            </b-list-group-item>
+                        </b-list-group>
+                    </div>                    
                 </b-col>
             </b-row>
             <div slot="modal-footer" class="w-100">
@@ -191,15 +193,17 @@
             <b-row>
                 <b-col md="12">
                     <h5 class="text-center" v-if="indicadoresList.length < 1">Localize o indicador</h5>
-                    <b-list-group>
-                        <b-list-group-item v-if="indicadoresList.length > 0" v-for="item in indicadoresList" v-bind:key="item.id" class="flex-column align-items-start mao">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">{{item.nome}}</h5>
-                                <b-button variant="success" size="sm" @click="adicionarIndicador(item)">Adicionar</b-button>
-                            </div>
-                            <span>{{item.descricao}}</span>
-                        </b-list-group-item>
+                    <div v-if="indicadoresList.length > 0">
+                        <b-list-group>
+                            <b-list-group-item v-for="item in indicadoresList" v-bind:key="item.id" class="flex-column align-items-start mao">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">{{item.nome}}</h5>
+                                    <b-button variant="success" size="sm" @click="adicionarIndicador(item)">Adicionar</b-button>
+                                </div>
+                                <span>{{item.descricao}}</span>
+                            </b-list-group-item>
                     </b-list-group>
+                    </div>
                 </b-col>
             </b-row>
             <div slot="modal-footer" class="w-100">
