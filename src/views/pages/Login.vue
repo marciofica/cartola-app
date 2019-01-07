@@ -68,7 +68,7 @@ export default {
         },
         success: function (response) { },
         error: function () {
-          console.log('Usuário ou senha inválidos')
+          this.$toast.top('Usuário ou senha inválidos');
         },
         rememberMe: true,
         fetchUser: false,

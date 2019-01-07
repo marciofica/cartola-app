@@ -145,7 +145,7 @@ export default {
                 this.$toast.top('Partida inserida com sucesso!');
                 this.$router.push({ path: '/clubes/'+this.$route.params.id+'/partidas' })
             }).catch(e => {
-                this.$toast.top(e);
+                this.$toast.top(e)
             })
         },
         getTimes () {
