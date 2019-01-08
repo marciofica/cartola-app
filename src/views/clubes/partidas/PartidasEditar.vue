@@ -66,6 +66,24 @@
                                                 <b-form-input v-model="partida.qtd_jogadores" type="text" id="qtd_jogadores" maxlength="2"></b-form-input>
                                             </b-form-group>
                                         </b-col>
+                                        <b-col md="3">
+                                            <b-form-group>
+                                                <label for="status">Status</label>
+                                                <b-form-select id="status"
+                                                    :plain="true"
+                                                    :options="[
+                                                        { text: 'Cadastrada', value: 'C'}, 
+                                                        { text: 'Aguardando confirmação', value: 'A'}, 
+                                                        { text: 'Confirmação encerrada', value: 'E'}, 
+                                                        { text: 'Partida encerada', value: 'P' },
+                                                        { text: 'Aguardando indicadores', value: 'I' },
+                                                        { text: 'Indicadores encerrados', value: 'X' }
+                                                    ]"
+                                                    :value="partida.status"
+                                                    v-model="partida.status">
+                                                </b-form-select>                                                
+                                            </b-form-group>
+                                        </b-col>
                                     </b-row>
                                     <b-row>
                                         <b-col md="12">

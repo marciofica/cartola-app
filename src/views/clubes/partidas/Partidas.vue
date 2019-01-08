@@ -25,7 +25,14 @@
                     <b-card-body>
                         <div class="mb-1"><i class="fa fa-angle-right"></i> {{item.time1.nome}}</div>
                         <div><i class="fa fa-angle-right"></i> {{item.time2.nome}}</div>
-                        <p class="mb-1 text-right"><b-badge variant="secondary" class="float-right">Criada</b-badge></p>
+                        <div class="mt-2 text-right">
+                            <b-badge variant="secondary" v-if="item.status=='C'" class="float-right">Criada</b-badge>
+                            <b-badge variant="warning" v-if="item.status=='A'" class="float-right">Aguardando confirmação</b-badge>
+                            <b-badge variant="warning" v-if="item.status=='E'" class="float-right">Confirmação encerrada</b-badge>
+                            <b-badge variant="primary" v-if="item.status=='I'" class="float-right">Aguardando indicadores</b-badge>
+                            <b-badge variant="primary" v-if="item.status=='X'" class="float-right">Indicadores encerrados</b-badge>
+                            <b-badge variant="success" v-if="item.status=='P'" class="float-right">Encerrada</b-badge>
+                        </div>
                     </b-card-body>
                 </b-card>
             </b-col>

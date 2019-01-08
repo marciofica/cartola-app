@@ -134,11 +134,11 @@ export default {
                 this.clearFields()
                 this.$toast.top('Clube inserido com sucesso!');
             }).catch(e => {
-                this.erro = e.error;
+                this.$toast.top(e.error)
             })
         },
         atualizar() {
-            this.$http.put('clubes/' + this.registro.id,{
+            this.$http.patch('clubes/' + this.registro.id,{
                 nome: this.registro.nome,
                 data_clube: this.registro.data_clube,
                 subdominio: this.registro.subdominio
@@ -149,7 +149,7 @@ export default {
                 this.clearFields()
                 this.getAll()
             }).catch(e => {
-                this.erro = e.error;
+                this.$toast.top(e.error)
             })
         },
         excluir() {
@@ -159,7 +159,7 @@ export default {
                 this.clearFields()
                 this.getAll()
             }).catch(e => {
-                this.erro = e.error;
+                this.$toast.top(e.error)
             }) 
         }
         
