@@ -74,10 +74,10 @@
                                                     :options="[
                                                         { text: 'Cadastrada', value: 'C'}, 
                                                         { text: 'Aguardando confirmação', value: 'A'}, 
-                                                        { text: 'Confirmação encerrada', value: 'E'}, 
-                                                        { text: 'Partida encerada', value: 'P' },
+                                                        { text: 'Confirmação encerrada', value: 'E'},                                                         
                                                         { text: 'Aguardando indicadores', value: 'I' },
-                                                        { text: 'Indicadores encerrados', value: 'X' }
+                                                        { text: 'Indicadores encerrados', value: 'X' },
+                                                        { text: 'Partida encerada', value: 'P' }
                                                     ]"
                                                     :value="partida.status"
                                                     v-model="partida.status">

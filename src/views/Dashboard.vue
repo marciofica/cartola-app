@@ -8,6 +8,12 @@
         <b-card no-body class="card-accent">
             <div slot="header">
               <strong>Jogo: {{frontEndDateFormat(item.partida.dh_partida)}}</strong>
+              <b-badge variant="secondary" v-if="item.partida.status=='C'" class="float-right">Criada</b-badge>
+              <b-badge variant="warning" v-if="item.partida.status=='A'" class="float-right">Aguardando confirmação</b-badge>
+              <b-badge variant="warning" v-if="item.partida.status=='E'" class="float-right">Confirmação encerrada</b-badge>
+              <b-badge variant="primary" v-if="item.partida.status=='I'" class="float-right">Aguardando indicadores</b-badge>
+              <b-badge variant="primary" v-if="item.partida.status=='X'" class="float-right">Indicadores encerrados</b-badge>
+              <b-badge variant="success" v-if="item.partida.status=='P'" class="float-right">Encerrada</b-badge>
             </div>
           <b-card-body class="pb-0">
               <table class="table table-sm">
@@ -19,7 +25,7 @@
                     <th scope="row">Vai jogar?</th>
                     <td>
                       {{item.confirmado == 'S'? 'Sim': 'Não'}} 
-                      <b-button-group size="sm">
+                      <b-button-group size="sm" v-if="item.partida.status == 'A'">
                         <b-button variant="ghost-success" v-if="item.confirmado != 'S' || item.dh_confirmacao == null" @click="confirmarPartida(item.id, 'S')"><i class="icon-like"></i> confirmar</b-button>
                         <b-button variant="ghost-danger" v-if="item.confirmado != 'N' || item.dh_confirmacao == null" @click="confirmarPartida(item.id, 'N')"><i class="icon-dislike"></i> desistir</b-button>
                     </b-button-group>
@@ -64,7 +70,7 @@ export default {
   },
   methods: {
     getAll() {
-        return this.$http.get('partidas-confirmacao-user?search=A').then(response => {            
+        return this.$http.get("partidas-confirmacao-user").then(response => {            
             this.registros = response.data;
         });
     },
